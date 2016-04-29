@@ -11,26 +11,20 @@
 #define ERROR_HEAP_FULL capacity
 
 
-template<class U>
-void swap(U& u1, U& u2) //to swap any two data objects
-{
-	U temp=u1;
-	u1=u2;
-	u2=temp;
-}
 
 template<class T>
-
 class minHeap //the main min heap class
 {
 	
 	//these 3 are assigned by constructor
 	int size; 
 	int capacity;
-	T* array;
+	T* array; 
+	//Instead of a new dynamic array, an array already containing the data elements is referenced by minHeap class so that the heap 
+	//can be created in O(n) time complexity, rather than O(n log n) time complexity
 	
 	int heapify(int element_position); //heapify function is private b'coz it'll be used directly only by other member functions 
-	
+	void swap(T&, T&); //swaps two nodes of the heap
 	public:
 	
 	minHeap(T* array, int size, int capacity) //constructor which takes an array of the elements, size and capacity as parameters. 
@@ -44,8 +38,8 @@ class minHeap //the main min heap class
 			return;
 		}
 	
-		for(int i=(size-1)>>1; i>=0; i--) //The input array is heapified. It takes O(n) Time Complexity (TC) [using aggregate analysis].
-		{
+		for(int i=(size-1)>>1; i>=0; i--) //The input array is heapified. 
+		{								  //Heap creation takes O(n) Time Complexity (TC) [using aggregate analysis].
 			heapify(i);
 		}
 		
@@ -90,6 +84,14 @@ template<class T>
 int minHeap<T>::get_size()
 {
 	return size;
+}
+
+template<class T>
+void minHeap<T> :: swap(T& t1, T& t2) //to swap any two data objects
+{
+	T temp=t1;
+	t1=t2;
+	t2=temp;
 }
 
 template<class T>

@@ -12,7 +12,7 @@
 
 
 template<class U>
-void swap(U& u1, U& u2)
+void swap(U& u1, U& u2) //to swap any two data objects
 {
 	U temp=u1;
 	u1=u2;
@@ -21,20 +21,20 @@ void swap(U& u1, U& u2)
 
 template<class T>
 
-class minHeap 
+class minHeap //the main min heap class
 {
 	
-
-	int size;
+	//these 3 are assigned by constructor
+	int size; 
 	int capacity;
 	T* array;
 	
-	int heapify(int element_position);
+	int heapify(int element_position); //heapify function is private b'coz it'll be used directly only by other member functions 
 	
 	public:
 	
-	minHeap(T* array, int size, int capacity)
-	{
+	minHeap(T* array, int size, int capacity) //constructor which takes an array of the elements, size and capacity as parameters. 
+	{										  //See sample program.cpp to get a clear picture
 		this->array= array;
 		this->size=size;
 		this->capacity=capacity;
@@ -44,21 +44,21 @@ class minHeap
 			return;
 		}
 	
-		for(int i=(size-1)>>1; i>=0; i--)
+		for(int i=(size-1)>>1; i>=0; i--) //The input array is heapified. It takes O(n) Time Complexity (TC) [using aggregate analysis].
 		{
 			heapify(i);
 		}
 		
 	}
 	
-	int insert(T element);
-	int get_capacity();
-	int get_size();
-	int extract_min();
-	int heap_decrease_key(int element_position, int new_value);
-	int heap_increase_key(int element_position, int new_value);
-	int heap_sort(T *output_array);
-	int show_element(int element_position);
+	int insert(T element);//to insert an element in the array of this heap. It takes O(log n) TC.
+	int get_capacity(); //returns the total number of elements which can be accomodated
+	int get_size(); //returns the total number of elements actually accomodated
+	int extract_min(); //takes out and returns the root element of the heap. Root is the minimum in a min heap. It takes O(log n) TC.
+	int heap_decrease_key(int element_position, int new_value); //It decreases the value of an element at a given position. It takes O(log n) TC.
+	int heap_increase_key(int element_position, int new_value);//It increases the value of an element at a given position. It takes O(log n) TC.
+	int heap_sort(T *output_array);//It extracts min in each iteration and copies it into the output array. This way output array is sorted with all the heap elements. It takes O(n log n) TC.
+	int show_element(int element_position);//returns the element present at the given position
 };
 
 template<class T>
@@ -70,9 +70,9 @@ int minHeap<T>::insert(T element)
 		return ERROR_HEAP_FULL;
 	}
 		
-	array[size++]=element;
+	array[size++]=element; //initially size=0; It increases after insertion of every element
 	
-	for(int i=(size-1)>>1; i>=0; i--)
+	for(int i=(size-1)>>1; i>=0; i--)//heapify starts from the least non=leaf node. This is b'coz leaves are always heapified.
 	{
 		heapify(i);
 	}
@@ -124,17 +124,17 @@ int minHeap<T>::heapify(int element_position)
 
 
 template<class T>
-int minHeap<T>::extract_min()
+int minHeap<T>::extract_min()//root is the min. It is returned back
 {
 	if(size < 1)
 	{
 		return ERROR_SIZE_LESS_THAN_1;
 	}
 	
-	int min= array[0];
-	swap(array[0], array[size-1]);
-	size--;
-	heapify(0);
+	int min= array[0];//min=root
+	swap(array[0], array[size-1]);//last element is swapped with the root
+	size--;//heap size is decreased coz root no longer belongs to the heap
+	heapify(0);//the new root is heapified. This way there will be a new min root.
 	return min;
 }
 
@@ -156,7 +156,7 @@ int minHeap<T> :: heap_decrease_key(int element_position, int new_value)
 		return ERROR_POSITION_LESS_THAN_0;		
 	}
 	
-	if(new_value > array[element_position])
+	if(new_value > array[element_position])//if an attempt to increase the value of the element
 	{
 		return ERROR_SIZE_INCREASED;
 	}
@@ -196,7 +196,7 @@ int minHeap<T> :: heap_increase_key(int element_position, int new_value)
 		return ERROR_POSITION_LESS_THAN_0;		
 	}
 	
-	if(new_value < array[element_position])
+	if(new_value < array[element_position]) //if an attempt to decrease the value of the element
 	{
 		return ERROR_SIZE_DECREASED;
 	}
